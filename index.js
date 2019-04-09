@@ -21,12 +21,12 @@ module.exports = function ThreeRenderer(ssb, opts) {
       return kv.value.content.settings || {}
     })
 
-    const renderer = new THREE.WebGLRenderer()
+    const renderer = new THREE.WebGLRenderer(ctx.ThreeWebGLRendererOpts)
     const el = renderer.domElement
     el.style.position = "absolute"
     el.style.top = "0px"
     el.style.left = "0px"
-    el.style.zIndex = "-1"
+    //el.style.zIndex = "-1"
 
     const camera = new THREE.PerspectiveCamera( 10, 16 / 9, 1, 2000 )
 
@@ -87,7 +87,7 @@ module.exports = function ThreeRenderer(ssb, opts) {
       t.stop()
     }
 
-    return h('.tre-3d--scene', {
+    return h('.tre-3d-scene', {
       hooks: [el => release]
     }, [
       el
