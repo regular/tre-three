@@ -1,6 +1,6 @@
 {
   "name": "tre-three",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "three.js renderer for tre",
   "main": "index.js",
   "scripts": {
