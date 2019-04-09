@@ -1,0 +1,33 @@
+{
+  "name": "tre-three",
+  "version": "1.0.0",
+  "description": "three.js renderer for tre",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/regular/tre-three.git"
+  },
+  "keywords": [
+    "tre",
+    "three.js"
+  ],
+  "author": "Jan Bölsche <jan@lagomorph.de> (https://regular.codes/)",
+  "license": "AGPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/regular/tre-three/issues"
+  },
+  "homepage": "https://github.com/regular/tre-three#readme",
+  "dependencies": {
+    "memoizeasync": "^1.1.0",
+    "multicb": "^1.2.2",
+    "mutant": "^3.22.1",
+    "raf": "^3.4.0",
+    "ssb-ref": "^2.11.2",
+    "three": "^0.96.0",
+    "three-orbitcontrols": "^2.96.2",
+    "traverse": "^0.6.6"
+  }
+}
