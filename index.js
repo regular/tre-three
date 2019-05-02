@@ -2,12 +2,10 @@ const h = require('mutant/html-element')
 const Value = require('mutant/value')
 const computed = require('mutant/computed')
 const watch = require('mutant/watch')
-const THREE = require('three')
-const OrbitControls = require('three-orbitcontrols')
 const AnimationTime = require('./animation-time')
 const traverse = require('traverse')
 
-module.exports = function ThreeRenderer(ssb, opts) {
+module.exports = function ThreeRenderer(ssb, THREE, OrbitControls, opts) {
   opts = opts || {}
 
   return function renderScene(kv, ctx) {
@@ -60,12 +58,13 @@ module.exports = function ThreeRenderer(ssb, opts) {
     }
 
     const abortWatchSettings = watch(settingsObs, contentSettings => {
+      console.log('tre-three settings', contentSettings)
       const cs = traverse(contentSettings)
       const ts = traverse(settings)
       ts.forEach( function(v) {
         if (this.isLeaf) {
           if (cs.has(this.path)) {
-            const newv = cs.get(path)
+            const newv = cs.get(this.path)
             console.log(`Setting ${this.path} from ${v} to ${newv}`)
             ts.set(this.path, v)
           }
@@ -94,34 +93,32 @@ module.exports = function ThreeRenderer(ssb, opts) {
     ])
 
   }
-}
 
-//-- utils
-
-function Controls(camera, el) {
-  const controls = new OrbitControls( camera, el )
-  controls.addEventListener('change', e => {
-    let event = new UIEvent('input', {
-      view: window,
-      bubbles: true,
-      cancelable: true
+  //-- utils
+  function Controls(camera, el) {
+    const controls = new OrbitControls( camera, el )
+    controls.addEventListener('change', e => {
+      let event = new UIEvent('input', {
+        view: window,
+        bubbles: true,
+        cancelable: true
+      })
+      let cancelled = !el.dispatchEvent(event)
     })
-    let cancelled = !el.dispatchEvent(event)
-  })
-  controls.target = new THREE.Vector3(0, 0, 0)
-  controls.zoomSpeed = 0.15
-  controls.rotateSpeed = 0.15
-  controls.enablePan = false
-  controls.autoRotate = true
-  controls.autoRotateSpeed = 0.2
-  camera.position.z = 15
-  return controls
-}
+    controls.target = new THREE.Vector3(0, 0, 0)
+    controls.zoomSpeed = 0.15
+    controls.rotateSpeed = 0.15
+    controls.enablePan = false
+    controls.autoRotate = false
+    controls.autoRotateSpeed = 0.0 //0.2
+    camera.position.z = 15
+    return controls
+  }
 
-function addUnitSphere(scene) {
-  const geometry = new THREE.SphereGeometry( 1, 30, 30 )
-  const material = new THREE.MeshBasicMaterial({color: 0x00ff00, wireframe: true})
-  const sphere = new THREE.Mesh(geometry, material)
-  scene.add(sphere)
+  function addUnitSphere(scene) {
+    const geometry = new THREE.SphereGeometry( 1, 30, 30 )
+    const material = new THREE.MeshBasicMaterial({color: 0x00ff00, wireframe: true})
+    const sphere = new THREE.Mesh(geometry, material)
+    scene.add(sphere)
+  }
 }
-
